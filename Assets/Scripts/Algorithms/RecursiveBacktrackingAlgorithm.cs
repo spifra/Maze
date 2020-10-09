@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RecursiveBacktrackingAlgorithm
 {
+    #region PRIVATE AND NOT SERIALIZED
     private Stack<MazeCell> cellsStack;
 
     private int rows;
@@ -15,6 +16,7 @@ public class RecursiveBacktrackingAlgorithm
     private MazeBuilder mazeBuilder;
 
     private MazeCell[,] grid;
+    #endregion
 
     // Reset parameters
     public void ResetRecursiveBacktracking(MazeCell[,] grid, MazeBuilder mazeBuilder, int rows, int columns)

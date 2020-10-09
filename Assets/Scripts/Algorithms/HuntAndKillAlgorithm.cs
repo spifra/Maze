@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HuntAndKillAlgorithm 
 {
+    #region PRIVATE AND NOT SERIALIZED
     private bool scanComplete;
 
     private int currentRow;
@@ -15,6 +16,7 @@ public class HuntAndKillAlgorithm
 
     private int rows;
     private int columns;
+    #endregion
 
     //Reset Hunt and kill algorithm
     public void ResetHuntAndKill(MazeCell[,] grid, MazeBuilder mazeBuilder, int rows, int columns)

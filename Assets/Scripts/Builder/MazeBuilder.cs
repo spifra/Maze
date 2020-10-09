@@ -6,13 +6,10 @@ using UnityEngine.UI;
 public class MazeBuilder : MonoBehaviour
 {
     /*Prefabs info*/
-    public GameObject wallPrefab;
-    public GameObject floorPrefab;
-    private float wallSize;
-    private float floorSize;
-
-    //maze container in scene
-    private GameObject mazeContainer;
+    [SerializeField]
+    private GameObject wallPrefab;
+    [SerializeField]
+    private GameObject floorPrefab;
 
     [HideInInspector]
     public MazeCell[,] grid;
@@ -22,8 +19,16 @@ public class MazeBuilder : MonoBehaviour
     [HideInInspector]
     public int columns;
 
+    #region PRIVATE AND NOT SERIALIZED
+    private float wallSize;
+    private float floorSize;
+
+    //maze container in scene
+    private GameObject mazeContainer;
+
     private HuntAndKillAlgorithm hek;
     private RecursiveBacktrackingAlgorithm rb;
+    #endregion
 
     private void Awake()
     {

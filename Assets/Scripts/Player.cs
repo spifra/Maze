@@ -5,12 +5,17 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    public float movingSpeed;
-    public float rotationSpeed;
+    [SerializeField]
+    private float movingSpeed;
+    [SerializeField]
+    private float rotationSpeed;
+
+    #region PRIVATE AND NOT SERIALIZED
     private Vector3 movement;
     private Vector3 rotation;
 
     private Rigidbody rigidbody;
+    #endregion
 
     private void Awake()
     {

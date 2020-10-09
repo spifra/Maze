@@ -5,14 +5,20 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
-    public Text rowsInput;
-    public Text columnsInput;
-    public Dropdown algorithmInput;
-    public Button playButton;
-    public GameObject warningPopup;
+    [SerializeField]
+    private Text rowsInput;
+    [SerializeField]
+    private Text columnsInput;
+    [SerializeField]
+    private Dropdown algorithmInput;
+    [SerializeField]
+    private Button playButton;
+    [SerializeField]
+    private GameObject warningPopup;
+    [SerializeField]
+    private float secondToShowWarning;
 
-    public float secondToShowWarning;
-
+    #region PRIVATE AND NOT SERIALIZED
     private int rows;
     private int columns;
 
@@ -22,6 +28,7 @@ public class UI : MonoBehaviour
     private bool isBuildable = false;
 
     private GameObject player;
+    #endregion
 
     private void Awake()
     {
@@ -44,7 +51,7 @@ public class UI : MonoBehaviour
         //get the input from the UI
         if (int.TryParse(rowsInput.text, out int result1) && int.TryParse(columnsInput.text, out int result2))
         {
-            if (result1 > 0 && result2 > 0)
+            if (result1 > 0 && result2 > 0 && result1 < 51 && result2 < 51)
             {
                 rows = result1;
                 columns = result2;
