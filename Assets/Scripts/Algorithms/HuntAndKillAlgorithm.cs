@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HuntAndKillAlgorithm 
+public class HuntAndKillAlgorithm
 {
     #region PRIVATE AND NOT SERIALIZED
     private bool scanComplete;
@@ -18,6 +18,8 @@ public class HuntAndKillAlgorithm
     private int columns;
     #endregion
 
+    private AlgorithmUtilities utilities;
+
     //Reset Hunt and kill algorithm
     public void ResetHuntAndKill(MazeCell[,] grid, MazeBuilder mazeBuilder, int rows, int columns)
     {
@@ -31,6 +33,9 @@ public class HuntAndKillAlgorithm
         this.columns = columns;
 
         grid[currentRow, currentColumn].visited = true;
+
+        utilities = new AlgorithmUtilities(rows, columns, grid);
+
     }
 
     /// <summary>
@@ -54,14 +59,14 @@ public class HuntAndKillAlgorithm
     /// </summary>
     void Walk()
     {
-        while (AreThereUnvisitedNeighbors())
+        while (utilities.AreThereUnvisitedNeighbors(currentRow, currentColumn))
         {
             int direction = Random.Range(0, 4);
 
             switch (direction)
             {
                 case 0: //check up
-                    if (IsCellValidAndUnvisited(currentRow - 1, currentColumn))
+                    if (utilities.IsCellValidAndUnvisited(currentRow - 1, currentColumn))
                     {
                         if (grid[currentRow, currentColumn].upWall)
                         {
@@ -77,7 +82,7 @@ public class HuntAndKillAlgorithm
                     }
                     break;
                 case 1: //check down
-                    if (IsCellValidAndUnvisited(currentRow + 1, currentColumn))
+                    if (utilities.IsCellValidAndUnvisited(currentRow + 1, currentColumn))
                     {
                         if (grid[currentRow, currentColumn].downWall)
                         {
@@ -95,7 +100,7 @@ public class HuntAndKillAlgorithm
                     }
                     break;
                 case 2: //check left
-                    if (IsCellValidAndUnvisited(currentRow, currentColumn - 1))
+                    if (utilities.IsCellValidAndUnvisited(currentRow, currentColumn - 1))
                     {
 
                         if (grid[currentRow, currentColumn].leftWall)
@@ -113,7 +118,7 @@ public class HuntAndKillAlgorithm
                     }
                     break;
                 case 3: //check right
-                    if (IsCellValidAndUnvisited(currentRow, currentColumn + 1))
+                    if (utilities.IsCellValidAndUnvisited(currentRow, currentColumn + 1))
                     {
                         if (grid[currentRow, currentColumn].rightWall)
                         {
@@ -150,7 +155,7 @@ public class HuntAndKillAlgorithm
         {
             for (int j = 0; j < columns; ++j)
             {
-                if (!grid[i, j].visited && AreThereVisitedNeighbors(i, j))
+                if (!grid[i, j].visited && utilities.AreThereVisitedNeighbors(i, j))
                 {
                     scanComplete = false;
                     currentRow = i;
@@ -251,62 +256,5 @@ public class HuntAndKillAlgorithm
                     break;
             }
         }
-    }
-
-    //Check if the adjacent cells are valid or unvisited
-    bool AreThereUnvisitedNeighbors()
-    {
-
-        if (IsCellValidAndUnvisited(currentRow - 1, currentColumn))
-        {
-            return true;
-        }
-        if (IsCellValidAndUnvisited(currentRow + 1, currentColumn))
-        {
-            return true;
-        }
-        if (IsCellValidAndUnvisited(currentRow, currentColumn - 1))
-        {
-            return true;
-        }
-        if (IsCellValidAndUnvisited(currentRow, currentColumn + 1))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    //Check if cell as visited adjacent cells
-    bool AreThereVisitedNeighbors(int row, int column)
-    {
-        if (row > 0 && grid[row - 1, column].visited)
-        {
-            return true;
-        }
-        if (row < rows - 1 && grid[row + 1, column].visited)
-        {
-            return true;
-        }
-        if (column > 0 && grid[row, column - 1].visited)
-        {
-            return true;
-        }
-        if (column < columns - 1 && grid[row, column + 1].visited)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    //Check if the cell is valid and unvisited
-    bool IsCellValidAndUnvisited(int row, int column)
-    {
-        if (row >= 0 && row < rows && column >= 0 && column < columns && !grid[row, column].visited)
-        {
-            return true;
-        }
-        return false;
     }
 }

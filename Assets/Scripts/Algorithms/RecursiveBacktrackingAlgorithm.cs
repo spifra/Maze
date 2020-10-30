@@ -18,6 +18,8 @@ public class RecursiveBacktrackingAlgorithm
     private MazeCell[,] grid;
     #endregion
 
+    private AlgorithmUtilities utilities;
+
     // Reset parameters
     public void ResetRecursiveBacktracking(MazeCell[,] grid, MazeBuilder mazeBuilder, int rows, int columns)
     {
@@ -34,6 +36,9 @@ public class RecursiveBacktrackingAlgorithm
         cellsStack.Push(grid[currentRow, currentColumn]);
 
         grid[currentRow, currentColumn].visited = true;
+
+        utilities = new AlgorithmUtilities(rows, columns, grid);
+
     }
 
 
@@ -49,14 +54,14 @@ public class RecursiveBacktrackingAlgorithm
         currentColumn = grid[currentRow, currentColumn].column;
         currentRow = grid[currentRow, currentColumn].row;
 
-        while (AreThereUnvisitedNeighbors())
+        while (utilities.AreThereUnvisitedNeighbors(currentRow, currentColumn))
         {
             int direction = Random.Range(0, 4);
 
             switch (direction)
             {
                 case 0: //check up
-                    if (IsCellValidAndUnvisited(currentRow - 1, currentColumn))
+                    if (utilities.IsCellValidAndUnvisited(currentRow - 1, currentColumn))
                     {
                         if (grid[currentRow, currentColumn].upWall)
                         {
@@ -74,7 +79,7 @@ public class RecursiveBacktrackingAlgorithm
                     }
                     break;
                 case 1: //check down
-                    if (IsCellValidAndUnvisited(currentRow + 1, currentColumn))
+                    if (utilities.IsCellValidAndUnvisited(currentRow + 1, currentColumn))
                     {
                         if (grid[currentRow, currentColumn].downWall)
                         {
@@ -93,7 +98,7 @@ public class RecursiveBacktrackingAlgorithm
                     }
                     break;
                 case 2: //check left
-                    if (IsCellValidAndUnvisited(currentRow, currentColumn - 1))
+                    if (utilities.IsCellValidAndUnvisited(currentRow, currentColumn - 1))
                     {
 
                         if (grid[currentRow, currentColumn].leftWall)
@@ -112,7 +117,7 @@ public class RecursiveBacktrackingAlgorithm
                     }
                     break;
                 case 3: //check right
-                    if (IsCellValidAndUnvisited(currentRow, currentColumn + 1))
+                    if (utilities.IsCellValidAndUnvisited(currentRow, currentColumn + 1))
                     {
                         if (grid[currentRow, currentColumn].rightWall)
                         {
@@ -142,41 +147,6 @@ public class RecursiveBacktrackingAlgorithm
         {
             return;
         }
-    }
-
-
-
-    bool IsCellValidAndUnvisited(int row, int column)
-    {
-        if (row >= 0 && row < rows && column >= 0 && column < columns && !grid[row, column].visited)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    //Check if the adjacent cells are valid or unvisited
-    bool AreThereUnvisitedNeighbors()
-    {
-
-        if (IsCellValidAndUnvisited(currentRow - 1, currentColumn))
-        {
-            return true;
-        }
-        if (IsCellValidAndUnvisited(currentRow + 1, currentColumn))
-        {
-            return true;
-        }
-        if (IsCellValidAndUnvisited(currentRow, currentColumn - 1))
-        {
-            return true;
-        }
-        if (IsCellValidAndUnvisited(currentRow, currentColumn + 1))
-        {
-            return true;
-        }
-
-        return false;
     }
 
     /// Set the next cell to check
